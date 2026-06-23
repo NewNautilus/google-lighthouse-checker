@@ -1,96 +1,81 @@
-[Google Lighthouse Checker](https://apify.com/alizarin_refrigerator-owner/google-lighthouse-checker?fpr=data)
+[Google Lighthouse Checker](https://apify.com/gentle_cloud/google-lighthouse-checker?fpr=data)
 
-# Google Lighthouse Checker
+## 🔍 Google Lighthouse Web Quality Checker
 
-Run Google Lighthouse audits at scale. Get Core Web Vitals, performance, accessibility, SEO, and best practices scores for any URL or batch of URLs.
+Run full Google Lighthouse audits on any web page using a built-in Lighthouse CLI and headless Chrome — no API key required. Get scores and detailed reports for Performance, Accessibility, SEO, and Best Practices.
 
----
+## 🔥 How It Works
 
-## Quick Start
+This Actor runs the Google Lighthouse CLI with headless Chromium inside a Docker container, performing the same audits you'd get from Chrome DevTools — but fully automated and at scale.
 
-### Test with Demo Mode (free, no API key needed)
+**Audit Categories:**
+
+- **Performance**: FCP, LCP, TBT, CLS, Speed Index, TTI
+- **Accessibility**: How well the page supports users with disabilities
+- **Best Practices**: Adherence to modern web development standards
+- **SEO**: Search engine optimization metrics
+
+## 🛫 How to Use
+
+1. **URLs to Audit**: Enter one or more web page URLs, e.g. `https://www.example.com`
+2. **Audit Categories**: Choose which categories to audit, separated by commas. Options:
+
+- `performance` - Performance
+- `accessibility` - Accessibility
+- `best-practices` - Best Practices
+- `seo` - Search Engine Optimization
+- Leave empty to audit all categories
+3. **Device Type**: Choose `mobile` (phone emulation) or `desktop` (desktop emulation)
+4. Click `Save & Start` to begin the audit
+5. Export results in JSON, XML, CSV, Excel, or HTML format
+
+> **Note**: Lighthouse audits are resource-intensive (approximately 30-60 seconds per URL). We recommend allocating at least 2048 MB of memory for this Actor.
+
+## 📊 Sample JSON Output
 
 ```
 {
-  "demoMode": true,
-  "urls": [
-    "https://example.com"
-  ],
-  "url": "https://example.com"
+    "url": "https://www.example.com",
+    "strategy": "mobile",
+    "checked_at": "2026-03-18 10:30:00 UTC",
+    "performance_score": 92,
+    "accessibility_score": 98,
+    "best_practices_score": 100,
+    "seo_score": 95,
+    "first_contentful_paint": "1.2 s",
+    "first_contentful_paint_score": 95,
+    "largest_contentful_paint": "2.1 s",
+    "largest_contentful_paint_score": 82,
+    "total_blocking_time": "120 ms",
+    "total_blocking_time_score": 90,
+    "cumulative_layout_shift": "0.05",
+    "cumulative_layout_shift_score": 96,
+    "speed_index": "1.8 s",
+    "speed_index_score": 88,
+    "time_to_interactive": "3.2 s",
+    "time_to_interactive_score": 78,
+    "failed_audits_count": 5,
+    "failed_audits": [
+        {
+            "id": "render-blocking-resources",
+            "title": "Eliminate render-blocking resources",
+            "score": 45,
+            "displayValue": "Potential savings of 1,200 ms"
+        }
+    ],
+    "final_url": "https://www.example.com/",
+    "lighthouse_version": "12.0.0"
 }
 ```
 
-### Run with real data
+## 📈 Score Guide
 
-```
-{
-  "demoMode": false,
-  "urls": [
-    "https://example.com"
-  ],
-  "url": "https://example.com",
-  "device": "mobile",
-  "categories": [
-    "performance",
-    "accessibility",
-    "best-practices",
-    "seo"
-  ],
-  "throttling": "mobile4G",
-  "includeFullReport": false,
-  "includeScreenshots": true,
-  "maxConcurrency": 1
-}
-```
-
----
-
-## Input Parameters
-
-| Parameter | Type | Default | Required | Description |
-| --- | --- | --- | --- | --- |
-| `urls` | array | - | No | List of URLs to run Lighthouse audits on |
-| `url` | string | - | No | Single URL to audit (alternative to urls array) |
-| `device` | string | `"mobile"` | No | Device to emulate for the audit |
-| `categories` | array | `["performance","accessibility","best-practices","seo"]` | No | Which Lighthouse categories to run |
-| `throttling` | string | `"mobile4G"` | No | Network throttling preset |
-| `includeFullReport` | boolean | `false` | No | Include the full Lighthouse JSON report (larger output) |
-| `includeScreenshots` | boolean | `true` | No | Include screenshots of the page (final screenshot and thumbnails) |
-| `maxConcurrency` | integer | `1` | No | Maximum number of concurrent audits |
-| `webhookUrl` | string | - | No | URL to POST results to when complete (Zapier, Make, n8n) |
-| `demoMode` | boolean | `true` | No | Run in demo mode with sample data (no actual audits) |
-
----
-
-## Pricing
-
-This actor uses **pay-per-event** billing:
-
-| Event | Description | Price |
+| Score Range | Rating | Description |
 | --- | --- | --- |
-| Audit Run | Per Lighthouse audit | $0.08 |
+| 90-100 | 🟢 Good | Excellent web quality |
+| 50-89 | 🟡 Needs Improvement | Room for optimization |
+| 0-49 | 🔴 Poor | Significant optimization needed |
 
-**Demo mode is free** -- no charges for sample data.
+## 🔧 Maintenance
 
----
-
-## Troubleshooting
-
-### "API error 429" or "Rate limit"
-
-Too many requests. Wait a minute and try again, or reduce the number of items per run.
-
-### No results or empty dataset
-
-Check the run log for error messages. Common causes:
-
-- Invalid input format (check the examples above)
-- The target data doesn't exist or is too small to track
-
-### How do I test without an API key?
-
-Enable **Demo Mode** in the input. This returns realistic sample data so you can verify the output format works for your workflow.
-
----
-
-**Built by John Rippy | [Actor Arsenal](https://actorarsenal.com)**
+This Actor is regularly maintained and updated to improve audit accuracy and stability.
